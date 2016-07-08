@@ -93,7 +93,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 
 		if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
 			text, err := content.TextContent()
-			var processedText = messageCheck(text)
+			var processedText = messageCheck(text.Text)
 			_, err = bot.SendText([]string{content.From}, processedText)
 
 			if err != nil {
