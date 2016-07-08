@@ -2,9 +2,6 @@
 	"ImportPath": "github.com/eggyo/LineBotTemplate",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v74",
-	"Packages": [
-		"./..."
-	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/line/line-bot-sdk-go/linebot",
