@@ -18,7 +18,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 	"strconv"
 
@@ -47,19 +46,6 @@ func getGeoLoc(body []byte) (*ResultGeoLoc, error) {
 }
 
 func main() {
-	// fixie
-	fixieUrl, err := url.Parse(os.Getenv("FIXIE_URL"))
-	customClient := &http.Client{Transport: &http.Transport{Proxy: http.ProxyURL(fixieUrl)}}
-	resp, err := customClient.Get("http://welcome.usefixie.com")
-	if err != nil {
-		println(err.Error())
-		return
-	}
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-	println(string(body))
-
-	// end fixie
 
 	// line bot
 	strID := os.Getenv("ChannelID")
@@ -95,16 +81,28 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		if content != nil {
 			log.Println("RECEIVE Msg:", content.IsMessage, " OP:", content.IsOperation, " type:", content.ContentType, " from:", content.From, "to:", content.To, " ID:", content.ID)
 		}
-		/*
-			if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
-				text, err := content.TextContent()
-				_, err = bot.SendText([]string{content.From}, "Bot received : "+text.Text)
+		// user add friend
+		if content != nil && content.IsOperation && content.OpType == linebot.OpTypeAddedAsFriend {
+			out := fmt.Sprintf("Bot แปลงพิกัด Eggyo\nวิธีใช้\nเพียงแค่กดแชร์ Location ที่ต้องการ ระบบจะทำการแปลง Location เป็นพิกัดระบบต่างๆ และหาความสูงจากระดับน้ำทะเลให้\nกด #help เพื่อดูวิธีใช้อื่นๆ :))")
+			//result.RawContent.Params[0] is who send your bot friend added operation, otherwise you cannot get in content or operation content.
+			_, err = bot.SendText([]string{result.RawContent.Params[0]}, out)
+			if err != nil {
+				log.Println(err)
+			}
+		}
 
-				if err != nil {
-					log.Println(err)
-				}
-			}*/
+		if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
+			text, err := content.TextContent()
+			var processedText = messageCheck(text)
+			_, err = bot.SendText([]string{content.From}, processedText)
+
+			if err != nil {
+				log.Println(err)
+			}
+		}
 		if content != nil && content.ContentType == linebot.ContentTypeLocation {
+			_, err = bot.SendText([]string{content.From}, "ระบบกำลังประมวลผล...")
+
 			loc, err := content.LocationContent()
 
 			// add eggyo geo test
