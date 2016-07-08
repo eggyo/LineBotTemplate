@@ -133,7 +133,7 @@ func FloatToString(input_num float64) string {
     return strconv.FormatFloat(input_num, 'f', 6, 64)
 }
 func callGoogleElev(lat float64,lon float64) string {
-	resp, err := http.Get("https://maps.googleapis.com/maps/api/elevation/json?locations=" + lat + "," + lon + "&key=AIzaSyAn9cWoce9zGEfGjDzMg6r_uTTUw3WoMOg")
+	resp, err := http.Get("https://maps.googleapis.com/maps/api/elevation/json?locations=" + FloatToString(lat) + "," + FloatToString(lon) + "&key=AIzaSyAn9cWoce9zGEfGjDzMg6r_uTTUw3WoMOg")
 	if (err != nil) {
     		println(err.Error())
     		return
