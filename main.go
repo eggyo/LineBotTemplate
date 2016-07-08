@@ -146,13 +146,17 @@ func callGoogleElev(lat float64,lon float64) string {
 	return FloatToString(elev.Results[0].Elev)
 }
 type ELEV struct {
-	Elev float64 `json:”elevation”`
-	Loc string `json:”location”`
-        Res float64 `json:”resolution”`
+	Elev float64 `json:"elevation"`
+	Res float64 `json:"resolution"`
+	Loc struct {
+		Lat float64 `json:"lat"`
+		Long float64 `json:"lng"`
+	} `json:"location"`
 }
 
 type ResultElev struct {
-	Results []ELEV `json:"results”`
+	Results []ELEV `json:"results"`
+	Status string  `json:"status"`
 }
 func getElev(body []byte) (*ResultElev, error) {
     var s = new(ResultElev)
