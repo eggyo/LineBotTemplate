@@ -1,9 +1,6 @@
 {
-	"ImportPath": ".",
+	"ImportPath": "github.com/eggyo/eggyo-line-bot",
 	"GoVersion": "go1.6",
 	"GodepVersion": "v74",
-	"Packages": [
-		"./..."
-	],
 	"Deps": []
 }
