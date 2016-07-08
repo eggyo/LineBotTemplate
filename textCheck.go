@@ -5,8 +5,8 @@ func messageCheck(msg string) string {
 	if msg == "#help" {
 		result = "ควย"
 	}
-  else{
+  else
     result = msg
-  }
+
 	return result
 }
