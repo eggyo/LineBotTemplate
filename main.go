@@ -113,14 +113,15 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
   			}
   			defer resp.Body.Close()
 			body, err := ioutil.ReadAll(resp.Body)
-                        log.Println(string(body))
-
-                        geo, err := getGeoLoc([]byte(body))
-			//_, err = bot.SendText([]string{content.From}, "OK "+text.Text)
-			_, err = bot.SendText([]string{content.From}, "LatLong :" + geo.Results.LatLong)
-_, err = bot.SendText([]string{content.From}, "Utm :" + geo.Results.Utm)
-_, err = bot.SendText([]string{content.From}, "Mgrs :" + geo.Results.Mgrs)
+                       log.Println(string(body))
 			
+			elev := callGoogleElev(loc.Latitude,loc.Longitude)
+                       geo, err := getGeoLoc([]byte(body))
+			_, err = bot.SendText([]string{content.From}, "LatLong :" + geo.Results.LatLong)
+			_, err = bot.SendText([]string{content.From}, "Utm :" + geo.Results.Utm)
+			_, err = bot.SendText([]string{content.From}, "Mgrs :" + geo.Results.Mgrs)
+			_, err = bot.SendText([]string{content.From}, “Altitude :" + elev)
+
                         
                         if err != nil {
 				log.Println(err)
