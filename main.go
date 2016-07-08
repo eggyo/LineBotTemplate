@@ -21,7 +21,7 @@ import (
 	"net/url"
   	"io/ioutil"
 	"github.com/line/line-bot-sdk-go/linebot"
-        "encoding/json"  
+        "encoding/json"
 )
 
 var bot *linebot.Client
@@ -56,9 +56,9 @@ func main() {
   	defer resp.Body.Close()
   	body, err := ioutil.ReadAll(resp.Body)
   	println(string(body))
-	
+
 	// end fixie
-	
+
 	// line bot
 	strID := os.Getenv("ChannelID")
 	numID, err := strconv.ParseInt(strID, 10, 64)
@@ -73,9 +73,9 @@ func main() {
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
 }
-   
+
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
-        
+
 	received, err := bot.ParseRequest(r)
 	if err != nil {
 		if err == linebot.ErrInvalidSignature {
@@ -114,7 +114,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
   			defer resp.Body.Close()
 			body, err := ioutil.ReadAll(resp.Body)
                        log.Println(string(body))
-			
+
 			var elev = callGoogleElev(loc.Latitude,loc.Longitude)
                        geo, err := getGeoLoc([]byte(body))
 			_, err = bot.SendText([]string{content.From}, "LatLong :" + geo.Results.LatLong)
@@ -122,7 +122,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			_, err = bot.SendText([]string{content.From}, "Mgrs :" + geo.Results.Mgrs)
 			_, err = bot.SendText([]string{content.From}, "Altitude :" + elev)
 
-                        
+
                         if err != nil {
 				log.Println(err)
 			}
@@ -133,37 +133,5 @@ func FloatToString(input_num float64) string {
     // to convert a float number to a string
     return strconv.FormatFloat(input_num, 'f', 6, 64)
 }
-func callGoogleElev(lat float64,lon float64) string {
-	resp, err := http.Get("https://maps.googleapis.com/maps/api/elevation/json?locations=" + FloatToString(lat) + "," + FloatToString(lon) + "&key=AIzaSyAn9cWoce9zGEfGjDzMg6r_uTTUw3WoMOg")
-	if (err != nil) {
-    		println(err.Error())
-    		return string(err.Error())
-  	}
-  	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-       elev, err := getElev([]byte(body))
 
-	return FloatToString(elev.Results[0].Elev)
-}
-type ELEV struct {
-	Elev float64 `json:"elevation"`
-	Res float64 `json:"resolution"`
-	Loc struct {
-		Lat float64 `json:"lat"`
-		Long float64 `json:"lng"`
-	} `json:"location"`
-}
-
-type ResultElev struct {
-	Results []ELEV `json:"results"`
-	Status string  `json:"status"`
-}
-func getElev(body []byte) (*ResultElev, error) {
-    var s = new(ResultElev)
-    err := json.Unmarshal(body, &s)
-    if(err != nil){
-        fmt.Println("whoops:", err)
-    }
-    return s, err
-}
 //eggyo
