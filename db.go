@@ -25,8 +25,9 @@ func getAllUser() {
 	log.Println("mLab User", string(body))
 
 }
-func addNewUser() {
-	var jsonStr = []byte(`{"Name":"dummy"}`)
+func addNewUser(ID string) {
+	var sendingMsg = `{"lineID":` + ID + `}`
+	var jsonStr = []byte(sendingMsg)
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
 

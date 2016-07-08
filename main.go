@@ -47,7 +47,6 @@ func getGeoLoc(body []byte) (*ResultGeoLoc, error) {
 
 func main() {
 	getAllUser()
-	addNewUser()
 	// line bot
 	strID := os.Getenv("ChannelID")
 	numID, err := strconv.ParseInt(strID, 10, 64)
@@ -88,7 +87,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		if content != nil && content.IsOperation && content.OpType == linebot.OpTypeAddedAsFriend {
 			out := fmt.Sprintf("Bot แปลงพิกัด Eggyo\nวิธีใช้\nเพียงแค่กดแชร์ Location ที่ต้องการ ระบบจะทำการแปลง Location เป็นพิกัดระบบต่างๆ และหาความสูงจากระดับน้ำทะเลให้\nกด #help เพื่อดูวิธีใช้อื่นๆ \nติดต่อผู้พัฒนา LINE ID : eggyo")
 			//result.RawContent.Params[0] is who send your bot friend added operation, otherwise you cannot get in content or operation content.
-			_, err = bot.SendText([]string{result.RawContent.Params[0]}, out)
+			_, err = bot.SendText([]string{content.From}, out)
+			addNewUser(content.From)
+
 			if err != nil {
 				log.Println(err)
 			}
