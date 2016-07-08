@@ -140,7 +140,26 @@ func callGoogleElev(lat float64,lon float64) string {
     		return string(err.Error())
   	}
   	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)    
-	return string(body)
+	body, err := ioutil.ReadAll(resp.Body)
+       elev, err := getElev([]byte(body))
+
+	return string(elev.Results.Elev)
+}
+type ELEV struct {
+	Elev float64 `json:”elevation”`
+	Loc string `json:”location”`
+        Res float64 `json:”resolution”`
+}
+
+type ResultElev struct {
+	Results ELEV `json:"results”`
+}
+func getElev(body []byte) (*ResultElev, error) {
+    var s = new(ResultElev)
+    err := json.Unmarshal(body, &s)
+    if(err != nil){
+        fmt.Println("whoops:", err)
+    }
+    return s, err
 }
 //eggyo
