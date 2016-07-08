@@ -46,7 +46,7 @@ func getGeoLoc(body []byte) (*ResultGeoLoc, error) {
 }
 
 func main() {
-
+	testDB()
 	// line bot
 	strID := os.Getenv("ChannelID")
 	numID, err := strconv.ParseInt(strID, 10, 64)
