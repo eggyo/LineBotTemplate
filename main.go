@@ -61,7 +61,6 @@ func main() {
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
 }
-
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 
 	received, err := bot.ParseRequest(r)
