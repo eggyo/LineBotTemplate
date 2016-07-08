@@ -62,10 +62,10 @@ func main() {
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
 	//test
-	_, err = bot.SendText([]string{"ufa92a3a52f197e19bfddeb5ca0595e93"}, "deploy done!")
 
 }
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
+	bot.SendText([]string{"ufa92a3a52f197e19bfddeb5ca0595e93"}, "deploy done!")
 
 	received, err := bot.ParseRequest(r)
 	if err != nil {
