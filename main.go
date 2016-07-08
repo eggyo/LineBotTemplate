@@ -61,6 +61,9 @@ func main() {
 	port := os.Getenv("PORT")
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
+	//test
+	_, err = bot.SendText([]string{"ufa92a3a52f197e19bfddeb5ca0595e93"}, "deploy done!")
+
 }
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -83,7 +86,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		// user add friend
 		if content != nil && content.IsOperation && content.OpType == linebot.OpTypeAddedAsFriend {
-			out := fmt.Sprintf("Bot แปลงพิกัด Eggyo\nวิธีใช้\nเพียงแค่กดแชร์ Location ที่ต้องการ ระบบจะทำการแปลง Location เป็นพิกัดระบบต่างๆ และหาความสูงจากระดับน้ำทะเลให้\nกด #help เพื่อดูวิธีใช้อื่นๆ :))")
+			out := fmt.Sprintf("Bot แปลงพิกัด Eggyo\nวิธีใช้\nเพียงแค่กดแชร์ Location ที่ต้องการ ระบบจะทำการแปลง Location เป็นพิกัดระบบต่างๆ และหาความสูงจากระดับน้ำทะเลให้\nกด #help เพื่อดูวิธีใช้อื่นๆ \nติดต่อผู้พัฒนา LINE ID : eggyo")
 			//result.RawContent.Params[0] is who send your bot friend added operation, otherwise you cannot get in content or operation content.
 			_, err = bot.SendText([]string{result.RawContent.Params[0]}, out)
 			if err != nil {
@@ -92,6 +95,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
+
 			text, err := content.TextContent()
 			var processedText = messageCheck(text.Text)
 			_, err = bot.SendText([]string{content.From}, processedText)
