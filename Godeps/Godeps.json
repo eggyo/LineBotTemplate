@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/kkdai/LineBot",
+	"ImportPath": "github.com/eggyo/LineBotTemplate",
 	"GoVersion": "go1.6",
 	"Packages": [
 		"./..."
@@ -7,6 +7,10 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/line/line-bot-sdk-go/linebot",
+			"Rev": "f3e3a38aee47ca24ded221ce4be6d9363e3d32e1"
+		},
+		{
+			"ImportPath": "gopkg.in/mgo.v2",
 			"Rev": "f3e3a38aee47ca24ded221ce4be6d9363e3d32e1"
 		}
 	]
