@@ -143,7 +143,7 @@ func callGoogleElev(lat float64,lon float64) string {
 	body, err := ioutil.ReadAll(resp.Body)
        elev, err := getElev([]byte(body))
 
-	return FloatToString(elev.Results.Elev)
+	return FloatToString(elev.Results[0].Elev)
 }
 type ELEV struct {
 	Elev float64 `json:”elevation”`
@@ -152,7 +152,7 @@ type ELEV struct {
 }
 
 type ResultElev struct {
-	Results ELEV `json:"results”`
+	Results []ELEV `json:"results”`
 }
 func getElev(body []byte) (*ResultElev, error) {
     var s = new(ResultElev)
