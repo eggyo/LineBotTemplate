@@ -4,9 +4,9 @@ func messageCheck(msg string) string {
 	var result = ""
 	if msg == "#help" {
 		result = "ควย"
+	} else {
+		result = msg
 	}
-  else
-    result = msg
 
 	return result
 }
