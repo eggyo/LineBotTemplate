@@ -14,8 +14,8 @@ type USER struct {
 }
 
 func testDB() {
-	session, err := mgo.Dial("mongodb://heroku_7swm6cvp:kshu6a3cjl8ilpe1l3pdi0llq4@ds017195.mlab.com:17195/heroku_7swm6cvp")
-	c := session.DB("heroku_7swm6cvp").C("_User")
+	session, err := mgo.Dial("mongodb://heroku_h1g317z7:k5c6qmc4so8glsjvb68m659m26@ds017205.mlab.com:17205")
+	c := session.DB("heroku_h1g317z7").C("_User")
 	err = c.Insert(&USER{"Ale", "+55 53 8116 9639"},
 		&USER{"Cla", "+55 53 8402 8510"})
 	if err != nil {
