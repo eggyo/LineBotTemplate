@@ -136,7 +136,7 @@ func callGoogleElev(lat float64,lon float64) string {
 	resp, err := http.Get("https://maps.googleapis.com/maps/api/elevation/json?locations=" + FloatToString(lat) + "," + FloatToString(lon) + "&key=AIzaSyAn9cWoce9zGEfGjDzMg6r_uTTUw3WoMOg")
 	if (err != nil) {
     		println(err.Error())
-    		return
+    		return string(err.Error())
   	}
   	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)    
