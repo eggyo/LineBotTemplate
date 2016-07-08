@@ -133,7 +133,7 @@ func FloatToString(input_num float64) string {
     // to convert a float number to a string
     return strconv.FormatFloat(input_num, 'f', 6, 64)
 }
-func callGoogleElev(lat float64,lon float64) string {
+func callGoogleElev(lat,lon float64) string {
 	resp, err := http.Get("https://maps.googleapis.com/maps/api/elevation/json?locations=" + FloatToString(lat) + "," + FloatToString(lon) + "&key=AIzaSyAn9cWoce9zGEfGjDzMg6r_uTTUw3WoMOg")
 	if (err != nil) {
     		println(err.Error())
