@@ -1,11 +1,10 @@
 package main
 
 import (
-	"fmt"
+	"bytes"
+	"io/ioutil"
 	"log"
-
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
+	"net/http"
 )
 
 type USER struct {
@@ -13,20 +12,28 @@ type USER struct {
 	LineID string
 }
 
-func testDB() {
-	session, err := mgo.Dial("mongodb://heroku_h1g317z7:k5c6qmc4so8glsjvb68m659m26@ds017205.mlab.com:17205")
-	c := session.DB("heroku_h1g317z7").C("_User")
-	err = c.Insert(&USER{"Ale", "+55 53 8116 9639"},
-		&USER{"Cla", "+55 53 8402 8510"})
-	if err != nil {
-		log.Fatal(err)
-	}
+var url = "https://api.mlab.com/api/1/databases/heroku_h1g317z7/collections/_User?apiKey=1S26M0Ti2t7gKunYRJiGNg8aeIMXnptN"
 
-	result := USER{}
-	err = c.Find(bson.M{"name": "Ale"}).One(&result)
-	if err != nil {
-		log.Fatal(err)
-	}
+func getAllUser() {
 
-	fmt.Println("Phone:", result.LineID)
+	resp, err := http.Get(url)
+	if err != nil {
+		println(err.Error())
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	log.Println("mLab User", string(body))
+
+}
+func addNewUser() {
+	var jsonStr = []byte(`{"Name":"dummy"}`)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
 }
