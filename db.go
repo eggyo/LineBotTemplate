@@ -66,6 +66,8 @@ func addMessageFromUser(msg string, fromUserId string) {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	log.Println("obj :", string(body))
+
 	msgObj, err := messageGet([]byte(body))
 	log.Println("objId msg :", msgObj.ID.ObjId)
 }
