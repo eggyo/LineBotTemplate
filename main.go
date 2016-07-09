@@ -100,10 +100,11 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		if content != nil && content.IsMessage && content.ContentType == linebot.ContentTypeText {
 
 			text, err := content.TextContent()
+			bot.SendText([]string{eggyoID}, "bot get msg:"+text.Text+"\nfrom :"+content.From)
+			addMessageFromUser(text.Text, content.From)
+			// reply message
 			var processedText = messageCheck(text.Text)
 			_, err = bot.SendText([]string{content.From}, processedText)
-			bot.SendText([]string{eggyoID}, "bot get msg:"+processedText+"\nfrom :"+content.From)
-			addMessageFromUser(processedText, content.From)
 
 			if err != nil {
 				log.Println(err)
