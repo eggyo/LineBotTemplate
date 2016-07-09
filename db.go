@@ -23,6 +23,9 @@ type MESSAGE struct {
 	ReplyMsg  []string `json:"replyMsg"`
 	ID        ObjectId `json:"_id"`
 }
+type ResultsMESSAGE struct {
+	ContentMsg []MESSAGE
+}
 
 var userDb_url = "https://api.mlab.com/api/1/databases/heroku_h1g317z7/collections/_User?apiKey=1S26M0Ti2t7gKunYRJiGNg8aeIMXnptN"
 var msgDb_url = "https://api.mlab.com/api/1/databases/heroku_h1g317z7/collections/Message?apiKey=1S26M0Ti2t7gKunYRJiGNg8aeIMXnptN"
@@ -69,7 +72,7 @@ func addMessageFromUser(msg string, fromUserId string) {
 	log.Println("obj :", string(body))
 
 	msgObj, err := messageGet([]byte(body))
-	log.Println("objId msg :", msgObj.ID.ObjId)
+	log.Println("objId msg :", msgObj.ContentMsg[0].ID.ObjId)
 }
 
 func getReplyMessageFromUser(msg string) string {
@@ -82,11 +85,11 @@ func getReplyMessageFromUser(msg string) string {
 	body, err := ioutil.ReadAll(resp.Body)
 	msgObj, err := messageGet([]byte(body))
 	log.Println("reply :", msgObj)
-	return msgObj.ReplyMsg[0]
+	return msgObj.ContentMsg[0].ReplyMsg[0]
 }
 
-func messageGet(body []byte) (*MESSAGE, error) {
-	var s = new(MESSAGE)
+func messageGet(body []byte) (*ResultsMESSAGE, error) {
+	var s = new(ResultsMESSAGE)
 	err := json.Unmarshal(body, &s)
 	if err != nil {
 		fmt.Println("whoops:", err)
