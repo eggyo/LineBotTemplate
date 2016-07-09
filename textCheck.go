@@ -5,7 +5,8 @@ func messageCheck(msg string) string {
 	if msg == "#help" {
 		result = "ควย"
 	} else {
-		result = getReplyMessageFromUser(msg)
+		//result = getReplyMessageFromUser(msg)
+		result = msg
 	}
 
 	return result
