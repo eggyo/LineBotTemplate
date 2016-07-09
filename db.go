@@ -88,7 +88,7 @@ func getReplyMessageFromUser(msg string) string {
 	msgObjs := messageArrayGet([]byte(body))
 	log.Println("reply :", msgObjs)
 	if len(msgObjs) == 0 {
-		return "ข้าไม่เข้าใจที่เจ้าพูด แต่ถ้าอยากสอนข้า ให้ทำตามนี้\n\nพิมพ์ #สอน ข้อความ #ตอบ ข้อความที่จะให้ตอบ\n\nเช่น\n#สอน หวัดดี #ตอบ จ้า"
+		return "ข้าไม่เข้าใจที่เจ้าพูด แต่ถ้าอยากสอนข้า ให้ทำตามนี้\n\nพิมพ์ #ask ข้อความ #ans ข้อความที่จะให้ตอบ\n\nเช่น\n#ask หวัดดี #ans จ้า"
 	} else {
 		return msgObjs[0].ReplyMsg[0]
 	}
