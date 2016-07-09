@@ -9,11 +9,15 @@ func messageCheck(msg string) string {
 		msg = strings.Trim(msg, "#ask ")
 		msg = strings.Replace(msg, " #ans ", ":", 1)
 		var msgArray = strings.Split(msg, ":")
-		addNewMessageFromUser(msgArray[0], msgArray[1])
+		if checkNewMessage(msg) == true {
+			addNewMessageFromUser(msgArray[0], msgArray[1])
+		} else {
+			addReplyMessageFromUser(msgArray[0], msgArray[1])
+		}
+		result = "ข้าจำได้แล้ว ลองทักใหม่ซิ อิอิ"
 
-	}
-	if msg == "#help" {
-		result = "ควย"
+	} else if msg == "#help" {
+		result = "ควย เอ้ย! คอย"
 	} else {
 		result = getReplyMessageFromUser(msg)
 		//result = msg

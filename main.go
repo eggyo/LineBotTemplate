@@ -85,7 +85,7 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		// user add friend
 		if content != nil && content.IsOperation && content.OpType == linebot.OpTypeAddedAsFriend {
-			out := fmt.Sprintf("Bot แปลงพิกัด Eggyo\nวิธีใช้\nเพียงแค่กดแชร์ Location ที่ต้องการ ระบบจะทำการแปลง Location เป็นพิกัดระบบต่างๆ และหาความสูงจากระดับน้ำทะเลให้\nกด #help เพื่อดูวิธีใช้อื่นๆ \nติดต่อผู้พัฒนา LINE ID : eggyo")
+			out := fmt.Sprintf("Bot แปลงพิกัด Eggyo\nวิธีใช้\nเพียงแค่กดแชร์ Location ที่ต้องการ ระบบจะทำการแปลง Location เป็นพิกัดระบบต่างๆ และหาความสูงจากระดับน้ำทะเลให้\n\nหรือจะพูดคุยกับ bot ก็ได้\nกด #help เพื่อดูวิธีใช้อื่นๆ \nติดต่อผู้พัฒนา LINE ID : eggyo")
 			//result.RawContent.Params[0] is who send your bot friend added operation, otherwise you cannot get in content or operation content.
 			_, err = bot.SendText([]string{content.From}, out)
 			bot.SendText([]string{eggyoID}, "bot has a new friend :"+content.From)
