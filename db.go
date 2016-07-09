@@ -78,11 +78,15 @@ func addMessageFromUser(msg string, fromUserId string) {
 func getReplyMessageFromUser(msg string) string {
 	var q = `&q={"msg":"` + msg + `","replyBool":true}`
 	resp, err := http.Get(msgDb_url + q)
+	log.Println("Query :", msgDb_url+q)
+
 	if err != nil {
 		println(err.Error())
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
+	log.Println("reply body:", string(body))
+
 	msgObjs, err := messageArrayGet([]byte(body))
 	log.Println("reply :", msgObjs)
 	if len(msgObjs.ContentMsg) == 0 {
