@@ -41,7 +41,7 @@ func addNewUser(ID string) {
 }
 
 func addMessageFromUser(msg string, fromUserId string) {
-	var sendingMsg = `{"msg":` + msg + `,"fromUserId:` + fromUserId + `,"replyBool":false,"replyMsg":""}`
+	var sendingMsg = `{"msg":` + msg + `,"fromUserId":` + fromUserId + `,"replyBool":false,"replyMsg":""}`
 	log.Println(sendingMsg)
 	var jsonStr = []byte(sendingMsg)
 	req, err := http.NewRequest("POST", msgDb_url, bytes.NewBuffer(jsonStr))
