@@ -77,8 +77,8 @@ func addReplyMessageFromUser(msg string, replyMsg string) {
 	log.Println(sendingMsg)
 	var jsonStr = []byte(sendingMsg)
 	req, err := http.NewRequest("PUT", msgDb_url, bytes.NewBuffer(jsonStr))
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Data", `{ $push: {"replyMsg":"`+replyMsg+`"}}`)
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Data", `{ $push: {"replyMsg":"`+replyMsg+`"}}`)
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
