@@ -73,12 +73,12 @@ func addNewMessageFromUser(msg string, replyMsg string) {
 	log.Println("objId msg :", msgObj.ID.ObjId)
 }
 func addReplyMessageFromUser(msg string, replyMsg string) {
-	var sendingMsg = `{"msg":"` + msg + `","replyMsg":["` + replyMsg + `"]}`
+	var sendingMsg = `{ $push: {"replyMsg":"` + replyMsg + `"}}`
 	log.Println(sendingMsg)
 	var jsonStr = []byte(sendingMsg)
-	req, err := http.NewRequest("PUT", msgDb_url, bytes.NewBuffer(jsonStr))
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Data", `{ $push: {"replyMsg":"`+replyMsg+`"}}`)
+	var q = `&q={"msg":"` + msg + `"}`
+	req, err := http.NewRequest("PUT", msgDb_url+q, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
