@@ -4,7 +4,7 @@ import "strings"
 
 func messageCheck(msg string) string {
 	var result = ""
-	if msg[0:4] == "#ask" {
+	if len(msg) > 6 && msg[0:4] == "#ask" {
 		// train
 		msg = strings.Trim(msg, "#ask ")
 		msg = strings.Replace(msg, " #ans ", ":", 1)
