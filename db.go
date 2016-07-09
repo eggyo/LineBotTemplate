@@ -83,9 +83,13 @@ func getReplyMessageFromUser(msg string) string {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	msgObj, err := messageArrayGet([]byte(body))
-	log.Println("reply :", msgObj)
-	return msgObj.ContentMsg[0].ReplyMsg[0]
+	msgObjs, err := messageArrayGet([]byte(body))
+	log.Println("reply :", msgObjs)
+	if len(msgObjs.ContentMsg) == 0 {
+		return "ข้าไม่เข้าใจ ถ้าอยากสอนชั้น ให้ทำตามนี้\n\nพิมพ์ #สอน ข้อความ #ตอบ ข้อความที่จะให้ตอบ\n\nเช่น\n#สอน หวัดดี #ตอบ จ้า"
+	} else {
+		return msgObjs.ContentMsg[0].ReplyMsg[0]
+	}
 }
 
 func messageGet(body []byte) (*MESSAGE, error) {
