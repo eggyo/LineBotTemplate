@@ -103,10 +103,11 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			var processedText = messageCheck(text.Text)
 			_, err = bot.SendText([]string{content.From}, processedText)
 			bot.SendText([]string{eggyoID}, "bot get msg:"+processedText+"\nfrom :"+content.From)
+			addMessageFromUser(processedText, content.From)
+
 			if err != nil {
 				log.Println(err)
 			}
-			addMessageFromUser(processedText, content.From)
 		}
 		if content != nil && content.ContentType == linebot.ContentTypeLocation {
 			_, err = bot.SendText([]string{content.From}, "ระบบกำลังประมวลผล...")
