@@ -17,11 +17,9 @@ type USER struct {
 	ID     ObjectId `json:"_id"`
 }
 type MESSAGE struct {
-	Msg       string   `json:"msg"`
-	From      string   `json:"fromUserId"`
-	ReplyBool bool     `json:"replyBool"`
-	ReplyMsg  []string `json:"replyMsg"`
-	ID        ObjectId `json:"_id"`
+	Msg      string   `json:"msg"`
+	ReplyMsg []string `json:"replyMsg"`
+	ID       ObjectId `json:"_id"`
 }
 type ResultsMESSAGE struct {
 	ContentMsg []MESSAGE
@@ -55,8 +53,8 @@ func addNewUser(ID string) {
 	defer resp.Body.Close()
 }
 
-func addMessageFromUser(msg string, fromUserId string) {
-	var sendingMsg = `{"msg":"` + msg + `","fromUserId":"` + fromUserId + `","replyBool":false,"replyMsg":[""]}`
+func addNewMessageFromUser(msg string, replyMsg string) {
+	var sendingMsg = `{"msg":"` + msg + `","replyMsg":["` + replyMsg + `"]}`
 	log.Println(sendingMsg)
 	var jsonStr = []byte(sendingMsg)
 	req, err := http.NewRequest("POST", msgDb_url, bytes.NewBuffer(jsonStr))
@@ -76,7 +74,7 @@ func addMessageFromUser(msg string, fromUserId string) {
 }
 
 func getReplyMessageFromUser(msg string) string {
-	var q = `&q={"msg":"` + msg + `","replyBool":true}`
+	var q = `&q={"msg":"` + msg + `"}`
 	resp, err := http.Get(msgDb_url + q)
 	log.Println("Query :", msgDb_url+q)
 
@@ -90,7 +88,7 @@ func getReplyMessageFromUser(msg string) string {
 	msgObjs := messageArrayGet([]byte(body))
 	log.Println("reply :", msgObjs)
 	if len(msgObjs) == 0 {
-		return "ข้าไม่เข้าใจ ถ้าอยากสอนชั้น ให้ทำตามนี้\n\nพิมพ์ #สอน ข้อความ #ตอบ ข้อความที่จะให้ตอบ\n\nเช่น\n#สอน หวัดดี #ตอบ จ้า"
+		return "ข้าไม่เข้าใจที่เจ้าพูด แต่ถ้าอยากสอนข้า ให้ทำตามนี้\n\nพิมพ์ #สอน ข้อความ #ตอบ ข้อความที่จะให้ตอบ\n\nเช่น\n#สอน หวัดดี #ตอบ จ้า"
 	} else {
 		return msgObjs[0].ReplyMsg[0]
 	}

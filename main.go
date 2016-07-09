@@ -101,7 +101,6 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 
 			text, err := content.TextContent()
 			bot.SendText([]string{eggyoID}, "bot get msg:"+text.Text+"\nfrom :"+content.From)
-			addMessageFromUser(text.Text, content.From)
 			// reply message
 			var processedText = messageCheck(text.Text)
 			_, err = bot.SendText([]string{content.From}, processedText)
