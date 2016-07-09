@@ -72,7 +72,7 @@ func addMessageFromUser(msg string, fromUserId string) {
 	log.Println("obj :", string(body))
 
 	msgObj, err := messageGet([]byte(body))
-	log.Println("objId msg :", msgObj.ContentMsg[0].ID.ObjId)
+	log.Println("objId msg :", msgObj.ID.ObjId)
 }
 
 func getReplyMessageFromUser(msg string) string {
@@ -83,12 +83,20 @@ func getReplyMessageFromUser(msg string) string {
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
-	msgObj, err := messageGet([]byte(body))
+	msgObj, err := messageArrayGet([]byte(body))
 	log.Println("reply :", msgObj)
 	return msgObj.ContentMsg[0].ReplyMsg[0]
 }
 
-func messageGet(body []byte) (*ResultsMESSAGE, error) {
+func messageGet(body []byte) (*MESSAGE, error) {
+	var s = new(MESSAGE)
+	err := json.Unmarshal(body, &s)
+	if err != nil {
+		fmt.Println("whoops:", err)
+	}
+	return s, err
+}
+func messageArrayGet(body []byte) (*ResultsMESSAGE, error) {
 	var s = new(ResultsMESSAGE)
 	err := json.Unmarshal(body, &s)
 	if err != nil {
