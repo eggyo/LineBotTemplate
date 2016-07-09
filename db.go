@@ -10,7 +10,7 @@ import (
 )
 
 type ObjectId struct {
-	ObjId string `json:"oid"`
+	ObjId string `json:"$oid"`
 }
 type USER struct {
 	LineID string   `json:"lineID"`
