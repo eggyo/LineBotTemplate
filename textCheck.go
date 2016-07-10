@@ -70,3 +70,4 @@ func botCommandProcessing(msg string) {
 	bot.SendText([]string{eggyoID}, result)
 
 }
+//test push frim ipad
