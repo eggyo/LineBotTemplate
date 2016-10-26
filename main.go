@@ -13,16 +13,13 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
+
 /*
 var bot *linebot.Client
 var eggyoID = "ufa92a3a52f197e19bfddeb5ca0595e93"
@@ -57,33 +54,34 @@ func main() {
 		log.Fatal(err)
 	}
 	// Setup HTTP Server for receiving requests from LINE platform
-		http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
-			events, err := bot.ParseRequest(req)
-			if err != nil {
-				if err == linebot.ErrInvalidSignature {
-					w.WriteHeader(400)
-				} else {
-					w.WriteHeader(500)
-				}
-				return
+	http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
+		events, err := bot.ParseRequest(req)
+		if err != nil {
+			if err == linebot.ErrInvalidSignature {
+				w.WriteHeader(400)
+			} else {
+				w.WriteHeader(500)
 			}
-			for _, event := range events {
-				if event.Type == linebot.EventTypeMessage {
-					switch message := event.Message.(type) {
-					case *linebot.TextMessage:
-						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
-							log.Print(err)
-						}
+			return
+		}
+		for _, event := range events {
+			if event.Type == linebot.EventTypeMessage {
+				switch message := event.Message.(type) {
+				case *linebot.TextMessage:
+					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
+						log.Print(err)
 					}
 				}
 			}
-		})
-		// This is just sample code.
-		// For actual use, you must support HTTPS by using `ListenAndServeTLS`, a reverse proxy or something else.
-		if err := http.ListenAndServe(":"+os.Getenv("PORT"), nil); err != nil {
-			log.Fatal(err)
 		}
+	})
+	// This is just sample code.
+	// For actual use, you must support HTTPS by using `ListenAndServeTLS`, a reverse proxy or something else.
+	if err := http.ListenAndServe(":"+os.Getenv("PORT"), nil); err != nil {
+		log.Fatal(err)
+	}
 }
+
 /*
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -161,5 +159,4 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	*/
-}
+*/
