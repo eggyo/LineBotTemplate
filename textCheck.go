@@ -1,7 +1,6 @@
 package main
 
-import "strings"
-
+/*
 func messageCheck(msg string) string {
 	var result = ""
 	if isTrainingCommand(msg) {
@@ -70,3 +69,5 @@ func botCommandProcessing(msg string) {
 	bot.SendText([]string{eggyoID}, result)
 
 }
+
+*/
