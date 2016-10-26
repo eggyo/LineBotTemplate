@@ -22,7 +22,7 @@ import (
 	"strconv"
 
 	"github.com/line/line-bot-sdk-go/linebot"
-) 
+)
 /*
 var bot *linebot.Client
 var eggyoID = "ufa92a3a52f197e19bfddeb5ca0595e93"
@@ -75,7 +75,7 @@ func main() {
 							log.Print(err)
 						}
 					}
-				}
+				} 
 			}
 		})
 		// This is just sample code.
