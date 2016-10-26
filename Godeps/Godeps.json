@@ -5,7 +5,7 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/line/line-bot-sdk-go/linebot",
-			"Rev": "f3e3a38aee47ca24ded221ce4be6d9363e3d32e1"
+			"Rev": "3a7d66f5efce6ac202f650134609f9d6d163a640"
 		}
 	]
 }
