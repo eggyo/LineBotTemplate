@@ -75,7 +75,7 @@ func main() {
 							log.Print(err)
 						}
 					}
-				} 
+				}
 			}
 		})
 		// This is just sample code.
