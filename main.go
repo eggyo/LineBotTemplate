@@ -23,7 +23,7 @@ import (
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
-
+/*
 var bot *linebot.Client
 var eggyoID = "ufa92a3a52f197e19bfddeb5ca0595e93"
 var logNof = "open"
@@ -45,26 +45,46 @@ func getGeoLoc(body []byte) (*ResultGeoLoc, error) {
 		fmt.Println("whoops:", err)
 	}
 	return s, err
-}
+}*/
 
 func main() {
-	getAllUser()
-	// line bot
-	strID := os.Getenv("ChannelID")
-	numID, err := strconv.ParseInt(strID, 10, 64)
+
+	bot, err := linebot.New(
+		os.Getenv("ChannelSecret"),
+		os.Getenv("MID"),
+	)
 	if err != nil {
-		log.Fatal("Wrong environment setting about ChannelID")
+		log.Fatal(err)
 	}
-
-	bot, err = linebot.NewClient(numID, os.Getenv("ChannelSecret"), os.Getenv("MID"))
-	log.Println("Bot:", bot, " err:", err)
-	http.HandleFunc("/callback", callbackHandler)
-	port := os.Getenv("PORT")
-	addr := fmt.Sprintf(":%s", port)
-	http.ListenAndServe(addr, nil)
-	//test
-
+	// Setup HTTP Server for receiving requests from LINE platform
+		http.HandleFunc("/callback", func(w http.ResponseWriter, req *http.Request) {
+			events, err := bot.ParseRequest(req)
+			if err != nil {
+				if err == linebot.ErrInvalidSignature {
+					w.WriteHeader(400)
+				} else {
+					w.WriteHeader(500)
+				}
+				return
+			}
+			for _, event := range events {
+				if event.Type == linebot.EventTypeMessage {
+					switch message := event.Message.(type) {
+					case *linebot.TextMessage:
+						if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
+							log.Print(err)
+						}
+					}
+				}
+			}
+		})
+		// This is just sample code.
+		// For actual use, you must support HTTPS by using `ListenAndServeTLS`, a reverse proxy or something else.
+		if err := http.ListenAndServe(":"+os.Getenv("PORT"), nil); err != nil {
+			log.Fatal(err)
+		}
 }
+/*
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
 
 	received, err := bot.ParseRequest(r)
@@ -141,4 +161,5 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
+	*/
 }
