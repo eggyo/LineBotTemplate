@@ -1,5 +1,6 @@
 package main
 
+/*
 import "strings"
 
 func messageCheck(msg string) string {
@@ -70,4 +71,4 @@ func botCommandProcessing(msg string) {
 	bot.SendText([]string{eggyoID}, result)
 
 }
-//test push frim ipad
+//test push frim ipad*/
