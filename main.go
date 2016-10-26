@@ -22,7 +22,7 @@ import (
 	"strconv"
 
 	"github.com/line/line-bot-sdk-go/linebot"
-)
+) 
 /*
 var bot *linebot.Client
 var eggyoID = "ufa92a3a52f197e19bfddeb5ca0595e93"
@@ -47,7 +47,7 @@ func getGeoLoc(body []byte) (*ResultGeoLoc, error) {
 	return s, err
 }*/
 
-func main() { 
+func main() {
 
 	bot, err := linebot.New(
 		os.Getenv("ChannelSecret"),
