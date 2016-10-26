@@ -22,8 +22,11 @@ import (
 
 /*
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 09a61a620751c49e8b67d3244f5280b4b309e1ae
+=======
+>>>>>>> 66cf34abf6b2ed7caa5c018b73c50380be01e401
 =======
 >>>>>>> 66cf34abf6b2ed7caa5c018b73c50380be01e401
 var bot *linebot.Client
@@ -49,6 +52,9 @@ func getGeoLoc(body []byte) (*ResultGeoLoc, error) {
 	return s, err
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 66cf34abf6b2ed7caa5c018b73c50380be01e401
 =======
 >>>>>>> 66cf34abf6b2ed7caa5c018b73c50380be01e401
 }*/
@@ -93,6 +99,7 @@ func main() {
 
 /*
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 }
 
@@ -115,6 +122,8 @@ func main() {
 
 }
 >>>>>>> 09a61a620751c49e8b67d3244f5280b4b309e1ae
+=======
+>>>>>>> 66cf34abf6b2ed7caa5c018b73c50380be01e401
 =======
 >>>>>>> 66cf34abf6b2ed7caa5c018b73c50380be01e401
 func callbackHandler(w http.ResponseWriter, r *http.Request) {
@@ -173,12 +182,17 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			// add eggyo geo test//
 			resp, err := http.Get("http://eggyo-geo-node.herokuapp.com/geo/" + FloatToString(loc.Latitude) + "," + FloatToString(loc.Longitude))
 =======
 			// add eggyo geo test
 			resp, err := http.Get("http://eggyo-geo-node.herokuapp.com/geo/" + FloatToString(loc.Latitude) + "/" + FloatToString(loc.Longitude))
 >>>>>>> 09a61a620751c49e8b67d3244f5280b4b309e1ae
+=======
+			// add eggyo geo test//
+			resp, err := http.Get("http://eggyo-geo-node.herokuapp.com/geo/" + FloatToString(loc.Latitude) + "," + FloatToString(loc.Longitude))
+>>>>>>> 66cf34abf6b2ed7caa5c018b73c50380be01e401
 =======
 			// add eggyo geo test//
 			resp, err := http.Get("http://eggyo-geo-node.herokuapp.com/geo/" + FloatToString(loc.Latitude) + "," + FloatToString(loc.Longitude))
@@ -205,6 +219,9 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 66cf34abf6b2ed7caa5c018b73c50380be01e401
 =======
 >>>>>>> 66cf34abf6b2ed7caa5c018b73c50380be01e401
 */
