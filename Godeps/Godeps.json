@@ -1,14 +1,11 @@
 {
-	"ImportPath": ".",
-	"GoVersion": "go1.7",
+	"ImportPath": "github.com/line/line-bot-sdk-go",
+	"GoVersion": "go1.7.3",
 	"GodepVersion": "v74",
-	"Packages": [
-		"./..."
-	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/line/line-bot-sdk-go/linebot",
-			"Rev": "cf2ef03b526492fbd832df3e1ace2936fcbdedcb"
+			"Rev": "3a7d66f5efce6ac202f650134609f9d6d163a640"
 		}
 	]
 }
