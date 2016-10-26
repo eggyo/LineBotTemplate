@@ -1,5 +1,5 @@
 {
-	"ImportPath": "github.com/line/line-bot-sdk-go",
+	"ImportPath": "github.com/kkdai/LineBot",
 	"GoVersion": "go1.7.3",
 	"GodepVersion": "v74",
 	"Deps": [
