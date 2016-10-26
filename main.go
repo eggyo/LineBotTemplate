@@ -47,7 +47,7 @@ func getGeoLoc(body []byte) (*ResultGeoLoc, error) {
 	return s, err
 }*/
 
-func main() {
+func main() { 
 
 	bot, err := linebot.New(
 		os.Getenv("ChannelSecret"),
