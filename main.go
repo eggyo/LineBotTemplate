@@ -86,8 +86,20 @@ func main() {
 					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.Text)).Do(); err != nil {
 						log.Print(err)
 					}
+
+				case *linebot.ImageMessage:
+
+					content, err := bot.GetMessageContent(message.ID).Do()
+					if err != nil {
+						return err
+					}
+					defer content.Content.Close()
+					log.Printf("Got file: %s", content.ContentType)
+
 				}
+
 			}
+
 		}
 	})
 	// This is just sample code.
