@@ -95,7 +95,7 @@ func main() {
 						log.Print(err)
 					}
 					defer content.Content.Close()
-					log.Printf("Got file: %s", content.Content)
+					log.Printf(content.Content)
 
 				}
 
