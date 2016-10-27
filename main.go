@@ -95,7 +95,7 @@ func main() {
 						log.Print(err)
 					}
 					defer content.Content.Close()
-					log.Printf(content.Content)
+					log.Printf(message.ID)
 
 				}
 
