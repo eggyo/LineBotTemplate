@@ -91,7 +91,7 @@ func main() {
 
 					content, err := bot.GetMessageContent(message.ID).Do()
 					if err != nil {
-						return err
+						log.Print(err)
 					}
 					defer content.Content.Close()
 					log.Printf("Got file: %s", content.ContentType)
