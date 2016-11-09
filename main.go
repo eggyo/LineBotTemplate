@@ -13,9 +13,13 @@
 package main
 
 import (
+	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
+	"path/filepath"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
@@ -89,13 +93,9 @@ func main() {
 
 				case *linebot.ImageMessage:
 					log.Print(message)
-
-					content, err := bot.GetMessageContent(message.ID).Do()
-					if err != nil {
+					if err := handleImage(message, event.ReplyToken); err != nil {
 						log.Print(err)
 					}
-					defer content.Content.Close()
-					log.Printf(message.ID)
 
 				}
 
@@ -108,6 +108,56 @@ func main() {
 	if err := http.ListenAndServe(":"+os.Getenv("PORT"), nil); err != nil {
 		log.Fatal(err)
 	}
+}
+func handleImage(message *linebot.ImageMessage, replyToken string) error {
+	return handleHeavyContent(message.ID, func(originalContent *os.File) error {
+		// You need to install ImageMagick.
+		// And you should consider about security and scalability.
+		previewImagePath := originalContent.Name() + "-preview"
+		_, err := exec.Command("convert", "-resize", "240x", "jpeg:"+originalContent.Name(), "jpeg:"+previewImagePath).Output()
+		if err != nil {
+			return err
+		}
+
+		originalContentURL := app.appBaseURL + "/downloaded/" + filepath.Base(originalContent.Name())
+		previewImageURL := app.appBaseURL + "/downloaded/" + filepath.Base(previewImagePath)
+		if _, err := app.bot.ReplyMessage(
+			replyToken,
+			linebot.NewImageMessage(originalContentURL, previewImageURL),
+		).Do(); err != nil {
+			return err
+		}
+		return nil
+	})
+}
+
+func handleHeavyContent(messageID string, callback func(*os.File) error) error {
+	content, err := app.bot.GetMessageContent(messageID).Do()
+	if err != nil {
+		return err
+	}
+	defer content.Content.Close()
+	log.Printf("Got file: %s", content.ContentType)
+	originalConent, err := saveContent(content.Content)
+	if err != nil {
+		return err
+	}
+	return callback(originalConent)
+}
+
+func saveContent(content io.ReadCloser) (*os.File, error) {
+	file, err := ioutil.TempFile(app.downloadDir, "")
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+
+	_, err = io.Copy(file, content)
+	if err != nil {
+		return nil, err
+	}
+	log.Printf("Saved %s", file.Name())
+	return file, nil
 }
 
 /*
