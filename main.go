@@ -119,9 +119,9 @@ func handleImage(message *linebot.ImageMessage, replyToken string) error {
 			return err
 		}
 
-		originalContentURL := app.appBaseURL + "/downloaded/" + filepath.Base(originalContent.Name())
-		previewImageURL := app.appBaseURL + "/downloaded/" + filepath.Base(previewImagePath)
-		if _, err := app.bot.ReplyMessage(
+		originalContentURL := "https://eggyo-line-bot.heroku.com" + "/downloaded/" + filepath.Base(originalContent.Name())
+		previewImageURL := "https://eggyo-line-bot.heroku.com" + "/downloaded/" + filepath.Base(previewImagePath)
+		if _, err := bot.ReplyMessage(
 			replyToken,
 			linebot.NewImageMessage(originalContentURL, previewImageURL),
 		).Do(); err != nil {
@@ -132,7 +132,7 @@ func handleImage(message *linebot.ImageMessage, replyToken string) error {
 }
 
 func handleHeavyContent(messageID string, callback func(*os.File) error) error {
-	content, err := app.bot.GetMessageContent(messageID).Do()
+	content, err := bot.GetMessageContent(messageID).Do()
 	if err != nil {
 		return err
 	}
@@ -146,7 +146,7 @@ func handleHeavyContent(messageID string, callback func(*os.File) error) error {
 }
 
 func saveContent(content io.ReadCloser) (*os.File, error) {
-	file, err := ioutil.TempFile(app.downloadDir, "")
+	file, err := ioutil.TempFile("https://eggyo-line-bot.heroku.com/downloadDir", "")
 	if err != nil {
 		return nil, err
 	}
