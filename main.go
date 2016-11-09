@@ -93,7 +93,7 @@ func main() {
 
 				case *linebot.ImageMessage:
 					log.Print(message)
-					if err := handleImage(message, event.ReplyToken); err != nil {
+					if err := handleImage(message, event.ReplyToken, bot); err != nil {
 						log.Print(err)
 					}
 
@@ -109,8 +109,8 @@ func main() {
 		log.Fatal(err)
 	}
 }
-func handleImage(message *linebot.ImageMessage, replyToken string) error {
-	return handleHeavyContent(message.ID, func(originalContent *os.File) error {
+func handleImage(message *linebot.ImageMessage, replyToken string, bot *linebot.Client) error {
+	return handleHeavyContent(bot, message.ID, func(originalContent *os.File) error {
 		// You need to install ImageMagick.
 		// And you should consider about security and scalability.
 		previewImagePath := originalContent.Name() + "-preview"
@@ -131,7 +131,7 @@ func handleImage(message *linebot.ImageMessage, replyToken string) error {
 	})
 }
 
-func handleHeavyContent(messageID string, callback func(*os.File) error) error {
+func handleHeavyContent(bot *linebot.Client, messageID string, callback func(*os.File) error) error {
 	content, err := bot.GetMessageContent(messageID).Do()
 	if err != nil {
 		return err
